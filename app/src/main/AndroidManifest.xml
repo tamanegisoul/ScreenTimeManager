@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="tamanegisoul.screentime">
+    package="tamanegisoul.screentime" >
+
+    <permission android:name="android.permission.GET_TASK" />
+
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:allowBackup="true"
@@ -10,7 +16,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"  android:launchMode="singleTask" >
+            android:label="@string/app_name"
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,14 +30,21 @@
             android:enabled="true"
             android:exported="true" >
         </service>
-        
-        <receiver android:name=".BootReceiver">
+
+        <receiver android:name=".BootReceiver" >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name=".AppListActivity"
+            android:label="@string/title_activity_app_list" >
+        </activity>
     </application>
-    <permission android:name="android.permission.GET_TASK"/>
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions"/>
 
 </manifest>

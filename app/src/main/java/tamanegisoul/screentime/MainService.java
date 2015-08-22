@@ -11,15 +11,20 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.IBinder;
 import android.os.Looper;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainService extends Service {
+
+    public static final String _BROADCAST_UPDATE = "tamanegisoul.screentimemanager.updateTime";
+    public static final String _TIME = "time";
 
     private Timer timer;
     public MainService() {
@@ -39,7 +44,7 @@ public class MainService extends Service {
         }
         // 非同期（別スレッド）で定期的に処理を実行させるためにTimerを利用する
         timer = new Timer();
-        timer.schedule(new TimerTaskB(), 0, 10000);
+        timer.schedule(new ValidateUsageTimeTimer(this), 0, 10000);
     }
 
     @Override
@@ -57,12 +62,18 @@ public class MainService extends Service {
             UsageStatsManager m = (UsageStatsManager)getSystemService(USAGE_STATS_SERVICE);
             List<UsageStats> ss = m.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, c.getTimeInMillis(), c.getTimeInMillis() + 24 * 60 * 60 * 1000);
             long time = 0;
+            String sss = "";
+            long lt = 0;
             for(UsageStats s : ss){
                 try {
                     PackageInfo pi = getPackageManager().getPackageInfo(s.getPackageName(), 0);
                     String pn = pi.applicationInfo.loadLabel(getPackageManager()).toString();
                     if(!pn.equals("システムUI") && !pn.equals("Googleアプリ")){
                         time += s.getTotalTimeInForeground();
+                        if(lt < s.getLastTimeUsed()){
+                            lt = s.getLastTimeUsed();
+                            sss = pn;
+                        }
                     }
                     Log.d("MainService", pi.applicationInfo.loadLabel(getPackageManager()).toString());
                     Log.d("MainService", String.valueOf(s.getTotalTimeInForeground()));
@@ -72,7 +83,13 @@ public class MainService extends Service {
                 }
             }
             Log.d("MainService", String.valueOf(time));
-            if(time > 1000 * 60 * 60) {
+            Log.d("MainService", sss);
+            Log.d("MainService", DateFormat.format("yyyy/MM/dd HH:mm:ss", lt).toString());
+
+            Intent ii = new Intent(_BROADCAST_UPDATE);
+            ii.putExtra(_TIME, time/1000/60);
+            sendBroadcast(ii);
+            if(time > 1000 * 60 * 90) {
             //if(time > 1000) {
                 Intent i = new Intent(getBaseContext(), MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
