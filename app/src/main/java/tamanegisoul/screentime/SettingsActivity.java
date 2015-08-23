@@ -33,6 +33,12 @@ import java.util.List;
  */
 public class SettingsActivity extends PreferenceActivity {
 
+    @Override
+    protected boolean isValidFragment(String fragmentName) {
+        return fragmentName.equals(GeneralPreferenceFragment.class.getName()) ||
+                fragmentName.equals(DataSyncPreferenceFragment.class.getName()) ||
+                fragmentName.equals(NotificationPreferenceFragment.class.getName());
+    }
 
     /**
      * {@inheritDoc}
@@ -103,7 +109,6 @@ public class SettingsActivity extends PreferenceActivity {
                         preference.setSummary(name);
                     }
                 }
-
             } else {
                 // For all other preferences, set the summary to the value's
                 // simple string representation.
@@ -131,7 +136,7 @@ public class SettingsActivity extends PreferenceActivity {
         sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
+                        .getAll().get(preference.getKey()));
     }
 
     /**
@@ -149,8 +154,8 @@ public class SettingsActivity extends PreferenceActivity {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("example_text"));
-            bindPreferenceSummaryToValue(findPreference("example_list"));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_pref_is_restriction_enabled)));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_pref_restricted_time)));
         }
     }
 

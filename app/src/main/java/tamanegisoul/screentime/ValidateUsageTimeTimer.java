@@ -49,12 +49,13 @@ public class ValidateUsageTimeTimer extends TimerTask {
             }
         }
         // 制限対象のアプリならカウント
-        if(PreferenceHelper.isRestrictedApp(mContext, lastUsedPackageName)){
+        if(lastUsedAppStartedTime != 0 && PreferenceHelper.isRestrictedApp(mContext, lastUsedPackageName)){
             long lastAppUsedTime = Calendar.getInstance().getTimeInMillis() - lastUsedAppStartedTime;
             Logger.d(this, lastUsedPackageName + " is now in use for " + String.valueOf(lastAppUsedTime) + " msec.");
             totalTime += lastAppUsedTime;
         }
 
+        PreferenceHelper.setCurrentUsageTime(mContext, (int) (totalTime / 1000 / 60));
         Intent intent = new Intent(ACTION_UPDATE_USAGE_TIME);
         intent.putExtra(TIME, totalTime / 1000 / 60);
         mContext.sendBroadcast(intent);
@@ -62,9 +63,9 @@ public class ValidateUsageTimeTimer extends TimerTask {
         Logger.d(this, "Total time is " + String.valueOf(totalTime));
 
         // 制限対象のアプリが起動している場合にはロック画面表示
-        if(PreferenceHelper.isEnabledRestriction(mContext) && PreferenceHelper.isRestrictedApp(mContext, lastUsedPackageName)){
+        if(PreferenceHelper.isEnabledRestriction(mContext) && PreferenceHelper.isRestrictedApp(mContext, lastUsedPackageName)) {
             if(totalTime > 1000 * 60 * PreferenceHelper.getRestrictedTime(mContext)) {
-                Intent i = new Intent(mContext, MainActivity.class);
+                Intent i = new Intent(mContext, ScreenLockActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(i);
             }

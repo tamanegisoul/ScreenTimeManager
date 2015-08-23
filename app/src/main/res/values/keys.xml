@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="key_pref_is_restriction_enabled">KEY_ENABLE_RESTRICTION</string>
+    <string name="key_pref_restricted_time">KEY_RESTRICTED_TIME</string>
+    <string name="key_pref_passcode">KEY_PASSCODE</string>
+</resources>

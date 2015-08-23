@@ -1,10 +1,9 @@
 package tamanegisoul.screentime;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,12 +38,15 @@ public class AppListAdapter extends ArrayAdapter<ApplicationInfo>{
         mCheckBoxClickListener = new CheckBoxClickListener(mDataMap);
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // 特定行(position)のデータを得る
         ApplicationInfo applicationInfo = getItem(position);
         // convertViewは使いまわされている可能性があるのでnullの時だけ新しく作る
-        if (null == convertView) convertView = mLayoutInflater.inflate(R.layout.list_item, null);
+        if(convertView == null){
+            convertView = mLayoutInflater.inflate(R.layout.list_item, null);
+        }
         // set the icon image
         ImageView imageView = (ImageView) convertView.findViewById(R.id.list_item_imageView);
         imageView.setImageDrawable(mPackageManager.getApplicationIcon(applicationInfo));
