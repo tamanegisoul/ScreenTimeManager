@@ -3,4 +3,7 @@
     <string name="key_pref_is_restriction_enabled">KEY_ENABLE_RESTRICTION</string>
     <string name="key_pref_restricted_time">KEY_RESTRICTED_TIME</string>
     <string name="key_pref_passcode">KEY_PASSCODE</string>
+    <string name="key_pref_restricted_app_prefix">/KEY_PREFIX_RESTRICTED_APP/</string>
+    <string name="key_auth_timestamp">KEY_AUTH_TIMESTAMP</string>
+    <string name="key_current_usage_time">KEY_CURRENT_USAGE_TIME</string>
 </resources>

@@ -13,4 +13,6 @@
     <string name="settings_restricted_application_list">制限するアプリケーション</string>
     <string name="settings_restricted_application_list_summary">利用時間を制限するアプリケーションを指定します。</string>
     <string name="title_activity_passcode_verify">PasscodeVerifyActivity</string>
+    <string name="key_pref_restricted_applications">restricted_applications</string>
+    <string name="key_pref_auth_session_timeout">KEY_</string>
 </resources>

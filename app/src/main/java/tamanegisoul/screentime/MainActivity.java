@@ -4,16 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,44 +58,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void onClick_OK(View view){
-        EditText t = (EditText)findViewById(R.id.text_passcode);
-        if(isPasscodeValid()){
-            Intent intent = new Intent(this, AppListActivity.class);
-            startActivity(intent);
-        }else{
-            Toast.makeText(this, "パスコードが違います", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void onClick_enable_restriction(View view){
-        CheckBox checkBox = (CheckBox) view;
-        if(isPasscodeValid()) {
-            PreferenceHelper.setEnabledRestriction(this, checkBox.isChecked());
-            if(PreferenceHelper.isEnabledRestriction(this)){
-                startService(new Intent(getBaseContext(), MainService.class));
-            }else{
-                stopService(new Intent(getBaseContext(), MainService.class));
-            }
-        } else {
-            checkBox.setChecked(!checkBox.isChecked());
-            Toast.makeText(this, "パスコードが違います", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private boolean isPasscodeValid(){
-        EditText t = (EditText)findViewById(R.id.text_passcode);
-        return t.getText().toString().equals("1187");
-    }
-
-    public void onClick_set_time(View view){
-        EditText editText = (EditText)findViewById(R.id.editText_time);
-        if(isPasscodeValid()) {
-            PreferenceHelper.setRestrictedTime(this, Integer.parseInt(editText.getText().toString()));
-        } else {
-            Toast.makeText(this, "パスコードが違います", Toast.LENGTH_SHORT).show();
-        }
     }
 }

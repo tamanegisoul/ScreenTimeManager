@@ -10,8 +10,19 @@
         android:singleLine="true"
         android:maxLines="1" />
 
+    <EditTextPreference
+        android:key="@string/key_pref_auth_session_timeout"
+        android:title="認証の有効時間(分)"
+        android:summary="パスコード認証のセッションの有効期限。期限切れで再表示した場合は設定画面を終了します。"
+
+        android:defaultValue="3"
+        android:selectAllOnFocus="true"
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        android:maxLines="1" />
+
     <PreferenceScreen
-        android:key="restricted_applications"
+        android:key="@string/key_pref_restricted_applications"
         android:title="@string/settings_restricted_application_list"
         android:summary="@string/settings_restricted_application_list_summary"
         >

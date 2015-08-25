@@ -18,7 +18,9 @@ public class VerifyPasscodeActivity extends AppCompatActivity {
 
     public void onClick_OK(View view){
         EditText editText = (EditText)findViewById(R.id.editText);
-        if(PreferenceHelper.isPasscodeVaid(this, editText.getText().toString())){
+        if(PreferenceHelper.isPasscodeValid(this, editText.getText().toString())){
+            PreferenceHelper.setAuthTimestamp(this);
+            finish();
             Intent intent = new Intent(this, SettingsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
