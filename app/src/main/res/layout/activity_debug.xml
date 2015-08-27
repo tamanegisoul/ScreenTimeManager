@@ -12,9 +12,16 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Start MainActivity"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClick_startMainActivity" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Start ScreenLockActivity"
         android:layout_gravity="center_horizontal"
-        android:onClick="onClick_startScreenLockActivity"/>
+        android:onClick="onClick_startScreenLockActivity" />
 
     <Button
         android:layout_width="wrap_content"

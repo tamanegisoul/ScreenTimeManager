@@ -9,6 +9,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimerTask;
 
+/**
+ * 使用時間が０になってしまう場合は、設定ーセキュリティー使用履歴にアクセスできるアプリを確認する。
+ */
 public class ValidateUsageTimeTimer extends TimerTask {
 
     public static String ACTION_UPDATE_USAGE_TIME = ValidateUsageTimeTimer.class.getCanonicalName() + "/ACTION_UPDATE_USAGE_TIME";
