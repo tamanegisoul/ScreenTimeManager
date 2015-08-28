@@ -27,6 +27,7 @@ public class ValidateUsageTimeTimer extends TimerTask {
     @Override
     public void run() {
         // 今日の使用時間情報を取得
+        // 使用時間が０になってしまう場合は、設定ーセキュリティー使用履歴にアクセスできるアプリを確認する。
         UsageStatsManager usageStatsManager = (UsageStatsManager) mContext.getSystemService(Context.USAGE_STATS_SERVICE);
         Calendar calendar = Calendar.getInstance();
         calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
