@@ -1,8 +1,11 @@
 package tamanegisoul.screentime;
 
+import android.app.AlertDialog;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -21,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PreferenceHelper.initializePreferences(this);
         setContentView(R.layout.activity_main);
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -30,12 +32,28 @@ public class MainActivity extends AppCompatActivity {
                 updateUsageStatsDisplay();
             }
         });
+        if (PreferenceHelper.getCurrentUsageTime(this) == 0) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("セキュリティ設定");
+            alertDialogBuilder.setMessage("使用履歴にアクセスできるアプリの設定をONにして下さい。");
+            alertDialogBuilder.setPositiveButton("OK",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent("android.settings.USAGE_ACCESS_SETTINGS"));
+                        }
+                    });
+            alertDialogBuilder.setCancelable(false);
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         updateUsageStatsDisplay();
+        PreferenceHelper.initializePreferences(this);
     }
 
     private void updateUsageStatsDisplay() {
@@ -93,13 +111,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getTimeString(long timeInMillisec) {
-        StringBuilder builder = new StringBuilder();
         long hours = timeInMillisec / 1000 / 60 / 60;
         long minutes = (timeInMillisec - hours * 1000 * 60 * 60) / 1000 / 60;
         long seconds = (timeInMillisec - hours * 1000 * 60 * 60 - minutes * 1000 * 60) / 1000;
         long milliSeconds = (timeInMillisec - hours * 1000 * 60 * 60 - minutes * 1000 * 60 - seconds * 1000);
-        builder.append(hours).append(":").append(minutes).append(":").append(seconds).append(".").append(milliSeconds);
-        return builder.toString();
+        return String.valueOf(hours) + ":" + String.valueOf(minutes) + ":" + String.valueOf(seconds) + "." + String.valueOf(milliSeconds);
     }
 
     @Override

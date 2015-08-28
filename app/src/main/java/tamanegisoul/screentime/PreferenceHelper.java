@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import java.util.Date;
 
@@ -11,8 +12,9 @@ public class PreferenceHelper {
 
     public static void initializePreferences(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (preferences.getAll().size() == 0) {
-            for (ApplicationInfo info : StatsUtils.getApplicationInfoSortedList(context)) {
+        if (preferences.getAll().size() <= 1) { // KEY_CURRENT_USAGE_TIMEが設定されているタイミングあり
+            for (ApplicationInfo info : StatsUtils.getSystemApplicationInfoList(context)) {
+                Log.d("PreferenceHelper", info.packageName + " is not restricted.");
                 PreferenceHelper.setRestrictedApp(context, info.packageName, false);
             }
         }

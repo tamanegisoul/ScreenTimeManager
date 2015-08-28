@@ -25,11 +25,13 @@ public class ScreenLockActivity extends AppCompatActivity {
         super.onResume();
         // Display the current usage time.
         TextView textView = (TextView) findViewById(R.id.textView);
-        if (getIntent().getStringExtra(INTENT_SCREEN_EXTRA).equals(INTENT_SCREEN_DISABLED_APP)) {
-            textView.setText("このアプリは使えません。");
-        } else if (getIntent().getStringExtra(INTENT_SCREEN_EXTRA).equals(INTENT_SCREEN_OVERUSE)) {
-            int currentUsageTime = PreferenceHelper.getCurrentUsageTime(this);
-            textView.setText(getString(R.string.current_usage_time, currentUsageTime));
+        if (getIntent().getStringExtra(INTENT_SCREEN_EXTRA) != null) {
+            if (getIntent().getStringExtra(INTENT_SCREEN_EXTRA).equals(INTENT_SCREEN_DISABLED_APP)) {
+                textView.setText("このアプリは使えません。");
+            } else if (getIntent().getStringExtra(INTENT_SCREEN_EXTRA).equals(INTENT_SCREEN_OVERUSE)) {
+                int currentUsageTime = PreferenceHelper.getCurrentUsageTime(this);
+                textView.setText(getString(R.string.current_usage_time, currentUsageTime));
+            }
         }
     }
     @Override
