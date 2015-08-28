@@ -33,6 +33,16 @@ public class PreferenceHelper {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, false);
     }
 
+    public static boolean isPlayStoreDisabled(Context context) {
+        String key = context.getString(R.string.key_pref_is_disable_app_store);
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, false);
+    }
+
+    public static boolean isSettingAppDisabled(Context context) {
+        String key = context.getString(R.string.key_pref_is_disable_app_settings);
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, false);
+    }
+
     public static int getRestrictedTime(Context context){
         String key = context.getString(R.string.key_pref_restricted_time);
         return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(context).getString(key, "60"));

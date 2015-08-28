@@ -38,6 +38,17 @@
         android:summary="アプリケーションの利用時間制限を有効にします。"
         android:defaultValue="false" />
 
+    <CheckBoxPreference
+        android:key="@string/key_pref_is_disable_app_settings"
+        android:title="設定アプリを無効にする"
+        android:summary="設定アプリを開いた際にロック画面を表示します。"
+        android:defaultValue="false" />
+    <CheckBoxPreference
+        android:key="@string/key_pref_is_disable_app_store"
+        android:title="Playストアを無効にする"
+        android:summary="Playストアを開いた際にロック画面を表示します。"
+        android:defaultValue="false" />
+
     <EditTextPreference
         android:key="@string/key_pref_restricted_time"
         android:title="制限時間(分)"

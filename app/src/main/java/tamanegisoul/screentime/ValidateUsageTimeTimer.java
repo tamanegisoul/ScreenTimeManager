@@ -66,11 +66,18 @@ public class ValidateUsageTimeTimer extends TimerTask {
 
         Logger.d(this, "Total time is " + String.valueOf(totalTime));
 
-        // 制限対象のアプリが起動している場合にはロック画面表示
-        if(PreferenceHelper.isEnabledRestriction(mContext) && PreferenceHelper.isRestrictedApp(mContext, lastUsedPackageName)) {
+        if ((lastUsedPackageName.equals("com.android.vending") && PreferenceHelper.isPlayStoreDisabled(mContext))
+                || (lastUsedPackageName.equals("com.android.settings") && PreferenceHelper.isSettingAppDisabled(mContext))) {
+            Intent i = new Intent(mContext, ScreenLockActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.putExtra(ScreenLockActivity.INTENT_SCREEN_EXTRA, ScreenLockActivity.INTENT_SCREEN_DISABLED_APP);
+            mContext.startActivity(i);
+        } else if (PreferenceHelper.isEnabledRestriction(mContext) && PreferenceHelper.isRestrictedApp(mContext, lastUsedPackageName)) {
+            // 制限対象のアプリが起動している場合にはロック画面表示
             if(totalTime > 1000 * 60 * PreferenceHelper.getRestrictedTime(mContext)) {
                 Intent i = new Intent(mContext, ScreenLockActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.putExtra(ScreenLockActivity.INTENT_SCREEN_EXTRA, ScreenLockActivity.INTENT_SCREEN_OVERUSE);
                 mContext.startActivity(i);
             }
         }

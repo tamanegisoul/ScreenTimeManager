@@ -2,7 +2,7 @@
     <string name="app_name">ScreenTimeManager</string>
 
     <string name="usage_time_is_up">使い過ぎだよ！</string>
-    <string name="current_usage_time">%1$d分使ったよ。</string>
+    <string name="current_usage_time">使い過ぎだよ！\n%1$d分使ったよ。</string>
     <string name="close">閉じる</string>
 
     <string name="hello_world">あHello world!</string>
@@ -15,4 +15,6 @@
     <string name="title_activity_passcode_verify">PasscodeVerifyActivity</string>
     <string name="key_pref_restricted_applications">restricted_applications</string>
     <string name="key_pref_auth_session_timeout">KEY_</string>
+    <string name="key_pref_is_disable_app_settings">KEY_DISABLE_APP_SETTINGS</string>
+    <string name="key_pref_is_disable_app_store">KEY_DISABLE_APP_STORE</string>
 </resources>
