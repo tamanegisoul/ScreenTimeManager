@@ -10,9 +10,14 @@ import android.widget.TextView;
 
 public class ScreenLockActivity extends AppCompatActivity {
 
-    public static String INTENT_SCREEN_EXTRA = "INTENT_SCREEN_EXTRA";
+    // Intentのパラメータキー
+    public static String INTENT_EXTRA_SCREEN = "INTENT_EXTRA_SCREEN";
+    // 使用時間超過の場合
     public static String INTENT_SCREEN_OVERUSE = "INTENT_SCREEN_OVERUSE";
+    // 使用不可アプリの場合
     public static String INTENT_SCREEN_DISABLED_APP = "INTENT_SCREEN_DISABLED_APP";
+    // 使用時間のパラメータキー
+    public static String INTENT_EXTRA_TIME = "INTENT_EXTRA_TIME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,17 +28,18 @@ public class ScreenLockActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Display the current usage time.
+
         TextView textView = (TextView) findViewById(R.id.textView);
-        if (getIntent().getStringExtra(INTENT_SCREEN_EXTRA) != null) {
-            if (getIntent().getStringExtra(INTENT_SCREEN_EXTRA).equals(INTENT_SCREEN_DISABLED_APP)) {
+        if (getIntent().getStringExtra(INTENT_EXTRA_SCREEN) != null) {
+            if (getIntent().getStringExtra(INTENT_EXTRA_SCREEN).equals(INTENT_SCREEN_DISABLED_APP)) {
                 textView.setText("このアプリは使えません。");
-            } else if (getIntent().getStringExtra(INTENT_SCREEN_EXTRA).equals(INTENT_SCREEN_OVERUSE)) {
-                int currentUsageTime = PreferenceHelper.getCurrentUsageTime(this);
+            } else if (getIntent().getStringExtra(INTENT_EXTRA_SCREEN).equals(INTENT_SCREEN_OVERUSE)) {
+                long currentUsageTime = getIntent().getLongExtra(INTENT_EXTRA_TIME, 0);
                 textView.setText(getString(R.string.current_usage_time, currentUsageTime));
             }
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -42,8 +48,7 @@ public class ScreenLockActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (item.getItemId() == R.id.action_settings) {
             startActivity(new Intent(this, VerifyPasscodeActivity.class));
             return true;
         }

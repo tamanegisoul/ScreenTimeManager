@@ -3,6 +3,7 @@ package tamanegisoul.screentime;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.widget.ListView;
 
 import java.util.Date;
 
@@ -15,6 +16,9 @@ public class AppListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_list);
+
+        ListView listView = (ListView) findViewById(R.id.listView_app_list);
+        listView.setAdapter(new AppListAdapter(this, R.layout.list_item, ApplicationUtils.getInstalledApplications(this)));
     }
 
     @Override

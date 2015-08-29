@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,33 +6,27 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
     tools:context="tamanegisoul.screentime.ScreenLockActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
+        android:text="@string/current_usage_time"
+        android:id="@+id/textView"
+        android:paddingBottom="20sp"
+        android:textSize="40sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/current_usage_time"
-            android:id="@+id/textView"
-            android:paddingBottom="20dp"
-            android:textSize="40dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@android:drawable/ic_menu_close_clear_cancel"
+        android:text="@string/action_close"
+        android:id="@+id/button"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:onClick="onClick_close" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
-            android:text="@string/action_close"
-            android:id="@+id/button"
-            android:layout_gravity="center_horizontal"
-            android:textSize="20dp"
-            android:onClick="onClick_close"/>
-
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

@@ -17,17 +17,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ListAdapter of installed application list.
- * The layout of list item is defined as res/layout/list_item.xml.
- *
+ * アプリ一覧のListAdapter。
  */
-public class AppListAdapter extends ArrayAdapter<ApplicationInfo>{
-
-
+public class AppListAdapter extends ArrayAdapter<ApplicationInfo> implements View.OnClickListener {
 
     private LayoutInflater mLayoutInflater;
     private PackageManager mPackageManager;
-    private CheckBoxClickListener mCheckBoxClickListener;
+    // CheckBoxの選択イベントでCheckBoxに対応するアプリケーションを取得するための入れ物
     private Map<CheckBox, ApplicationInfo> mDataMap;
 
     public AppListAdapter(Context context, int resourceId, List<ApplicationInfo> applicationInfoList){
@@ -35,48 +31,36 @@ public class AppListAdapter extends ArrayAdapter<ApplicationInfo>{
         mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mPackageManager = context.getPackageManager();
         mDataMap = new HashMap<>();
-        mCheckBoxClickListener = new CheckBoxClickListener(mDataMap);
     }
 
     @SuppressLint("InflateParams")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // 特定行(position)のデータを得る
-        ApplicationInfo applicationInfo = getItem(position);
         // convertViewは使いまわされている可能性があるのでnullの時だけ新しく作る
         if(convertView == null){
             convertView = mLayoutInflater.inflate(R.layout.list_item, null);
         }
-        // set the icon image
+
+        ApplicationInfo applicationInfo = getItem(position);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.list_item_imageView);
         imageView.setImageDrawable(mPackageManager.getApplicationIcon(applicationInfo));
-        // set the application label
         TextView textView = (TextView)convertView.findViewById(R.id.list_item_textView);
         textView.setText(applicationInfo.loadLabel(mPackageManager));
-        // set checked if it is an restricted application
         CheckBox checkBox = (CheckBox)convertView.findViewById(R.id.list_item_checkBox);
-        mDataMap.put(checkBox, applicationInfo);
+        if (!mDataMap.containsKey(checkBox)) {
+            mDataMap.put(checkBox, applicationInfo);
+        }
         boolean isRestricted = PreferenceHelper.isRestrictedApp(getContext(), applicationInfo.packageName);
         checkBox.setChecked(isRestricted);
-        checkBox.setOnClickListener(mCheckBoxClickListener);
+        checkBox.setOnClickListener(this);
         return convertView;
     }
 
-    public class CheckBoxClickListener implements View.OnClickListener {
-
-        private Map<CheckBox, ApplicationInfo> mDataMap;
-
-        public CheckBoxClickListener(Map<CheckBox, ApplicationInfo> keyMap){
-            super();
-            mDataMap = keyMap;
-        }
-
-        @Override
-        public void onClick(View v) {
-            CheckBox checkBox = (CheckBox) v;
-            Logger.d(this, mDataMap.get(checkBox).packageName + " is clicked.");
-            PreferenceHelper.setRestrictedApp(getContext(), mDataMap.get(checkBox).packageName, checkBox.isChecked());
-        }
+    @Override
+    public void onClick(View view) {
+        CheckBox checkBox = (CheckBox) view;
+        Logger.d(this, mDataMap.get(checkBox).packageName + " is clicked.");
+        PreferenceHelper.setRestrictedApp(getContext(), mDataMap.get(checkBox).packageName, checkBox.isChecked());
     }
 
 }

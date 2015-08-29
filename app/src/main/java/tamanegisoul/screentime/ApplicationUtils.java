@@ -1,11 +1,15 @@
 package tamanegisoul.screentime;
 
 import android.app.ActivityManager;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -27,6 +31,18 @@ public class ApplicationUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * @param context context
+     * @return アプリケーションの使用状況のアクセス許可設定がONの場合true
+     */
+    public static boolean isUsageStatsAccessible(Context context) {
+        UsageStatsManager usageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
+        List<UsageStats> usageStatsList = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, calendar.getTimeInMillis(), calendar.getTimeInMillis() + 24 * 60 * 60 * 1000);
+        return usageStatsList.size() != 0;
     }
 
     /**
@@ -88,4 +104,22 @@ public class ApplicationUtils {
                 || info.packageName.equals("com.google.android.apps.walletnfcrel")
                 ;
     }
+
+    /**
+     * @param context     context
+     * @param packageName パッケージ名
+     * @return アプリケーションのラベル。取得できない場合はnull。
+     */
+    public static String getApplicationLabel(Context context, String packageName) {
+        PackageManager packageManager = context.getPackageManager();
+        String label = null;
+        try {
+            PackageInfo info = packageManager.getPackageInfo(packageName, 0);
+            label = info.applicationInfo.loadLabel(packageManager).toString();
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return label;
+    }
+
 }
