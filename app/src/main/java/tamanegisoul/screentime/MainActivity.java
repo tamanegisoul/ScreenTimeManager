@@ -96,6 +96,23 @@ public class MainActivity extends AppCompatActivity {
 
         TextView textView = (TextView) findViewById(R.id.textView);
         textView.setText(builder.toString());
+
+        textView = (TextView) findViewById(R.id.textView_current_usage_time);
+        textView.setText(getString(R.string.current_usage_time, totalTime / 1000 / 60));
+
+        textView = (TextView) findViewById(R.id.textView_restricted_time);
+        textView.setText(getString(R.string.restricted_time, PreferenceHelper.getRestrictedTime(this)));
+
+        PackageInfo packageInfo;
+        try {
+            packageInfo = getPackageManager().getPackageInfo("tamanegisoul.screentime", PackageManager.GET_META_DATA);
+            textView = (TextView) findViewById(R.id.textView_installed_time);
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(packageInfo.firstInstallTime);
+            textView.setText(getString(R.string.installed_time, cal));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private String getApplicationLabel(String packageName) {

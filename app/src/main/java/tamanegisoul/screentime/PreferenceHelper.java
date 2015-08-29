@@ -48,6 +48,10 @@ public class PreferenceHelper {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, false);
     }
 
+    /**
+     * @param context context
+     * @return restricted time in minutes
+     */
     public static int getRestrictedTime(Context context){
         String key = context.getString(R.string.key_pref_restricted_time);
         return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(context).getString(key, "60"));
