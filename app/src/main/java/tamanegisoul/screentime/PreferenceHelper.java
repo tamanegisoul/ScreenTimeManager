@@ -12,7 +12,10 @@ public class PreferenceHelper {
 
     public static void initializePreferences(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (preferences.getAll().size() <= 1) { // KEY_CURRENT_USAGE_TIMEが設定されているタイミングあり
+        String key = context.getString(R.string.key_pref_restricted_app_prefix) + "com.android.systemui";
+        // KEY_CURRENT_USAGE_TIMEが設定されているタイミングがあったりするので
+        // システムUIの除外設定有無で初期化済かどうかを判定する。
+        if (!preferences.contains(key)) {
             for (ApplicationInfo info : StatsUtils.getSystemApplicationInfoList(context)) {
                 Log.d("PreferenceHelper", info.packageName + " is not restricted.");
                 PreferenceHelper.setRestrictedApp(context, info.packageName, false);

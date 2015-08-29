@@ -49,10 +49,10 @@
             android:launchMode="singleTask"
             android:theme="@style/Transparent" >
         </activity>
+        <!-- Singleタスクにすると小画面端末で設定子画面が表示できなくなる -->
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:launchMode="singleTask">
+            android:label="@string/title_activity_settings">
         </activity>
         <activity
             android:name=".VerifyPasscodeActivity"
