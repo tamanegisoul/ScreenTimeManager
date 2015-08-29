@@ -5,11 +5,4 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <drawable name="transparam">#bb000000</drawable>
-    <style name="Transparent" parent="AppTheme">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@drawable/transparam</item>
-        <item name="android:windowIsTranslucent">true</item>
-    </style>
-
 </resources>

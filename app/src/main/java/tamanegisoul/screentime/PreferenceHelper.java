@@ -16,7 +16,7 @@ public class PreferenceHelper {
         // KEY_CURRENT_USAGE_TIMEが設定されているタイミングがあったりするので
         // システムUIの除外設定有無で初期化済かどうかを判定する。
         if (!preferences.contains(key)) {
-            for (ApplicationInfo info : StatsUtils.getSystemApplicationInfoList(context)) {
+            for (ApplicationInfo info : ApplicationUtils.getSystemApplicationInfoList(context)) {
                 Log.d("PreferenceHelper", info.packageName + " is not restricted.");
                 PreferenceHelper.setRestrictedApp(context, info.packageName, false);
             }
@@ -61,9 +61,13 @@ public class PreferenceHelper {
         return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(context).getString(key, "3"));
     }
 
+    public static boolean isPasscodeSet(Context context) {
+        String key = context.getString(R.string.key_pref_passcode);
+        return PreferenceManager.getDefaultSharedPreferences(context).contains(key);
+    }
     public static boolean isPasscodeValid(Context context, String passcode){
         String key = context.getString(R.string.key_pref_passcode);
-        return passcode.equals(PreferenceManager.getDefaultSharedPreferences(context).getString(key, ""));
+        return passcode.equals(PreferenceManager.getDefaultSharedPreferences(context).getString(key, "0000"));
     }
 
     // 以下はPreferenceでないけど保存しているもの

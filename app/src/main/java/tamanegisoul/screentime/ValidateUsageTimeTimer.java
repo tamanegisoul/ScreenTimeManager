@@ -68,6 +68,7 @@ public class ValidateUsageTimeTimer extends TimerTask {
 
         if ((lastUsedPackageName.equals("com.android.vending") && PreferenceHelper.isPlayStoreDisabled(mContext))
                 || (lastUsedPackageName.equals("com.android.settings") && PreferenceHelper.isSettingAppDisabled(mContext))) {
+            Logger.d(this, lastUsedPackageName + " is not allowed to use.");
             Intent i = new Intent(mContext, ScreenLockActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.putExtra(ScreenLockActivity.INTENT_SCREEN_EXTRA, ScreenLockActivity.INTENT_SCREEN_DISABLED_APP);

@@ -20,16 +20,17 @@
             android:layout_height="wrap_content"
             android:text="@string/current_usage_time"
             android:id="@+id/textView"
-            android:paddingBottom="60dp"
-            android:textSize="60dp" />
+            android:paddingBottom="20dp"
+            android:textSize="40dp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/close"
+            android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
+            android:text="@string/action_close"
             android:id="@+id/button"
             android:layout_gravity="center_horizontal"
-            android:textSize="40dp"
+            android:textSize="20dp"
             android:onClick="onClick_close"/>
 
     </LinearLayout>

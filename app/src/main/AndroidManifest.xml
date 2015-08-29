@@ -12,52 +12,52 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
         <activity
-            android:name=".DebugActivity"
-            android:label="@string/title_activity_debug"
+            android:name=".MainActivity"
+            android:label="@string/app_name"
             android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:name=".ScreenLockActivity"
+            android:label="@string/title_activity_screen_lock"
+            android:launchMode="singleTask" />
+
+        <activity
+            android:name=".VerifyPasscodeActivity"
+            android:label="@string/title_activity_passcode_verify" />
+
+        <!-- Singleタスクにすると小画面端末で設定子画面が表示できなくなる -->
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" />
+
+        <activity
+            android:name=".AppListActivity"
+            android:label="@string/title_activity_app_list" />
+
+        <activity
+            android:name=".DebugActivity"
+            android:label="@string/title_activity_debug"
             android:launchMode="singleTask" >
         </activity>
 
         <service
             android:name=".MainService"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="false">
         </service>
-
         <receiver android:name=".BootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".AppListActivity"
-            android:label="@string/title_activity_app_list" >
-        </activity>
-        <activity
-            android:name=".ScreenLockActivity"
-            android:label="@string/title_activity_screen_lock"
-            android:launchMode="singleTask"
-            android:theme="@style/Transparent" >
-        </activity>
-        <!-- Singleタスクにすると小画面端末で設定子画面が表示できなくなる -->
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings">
-        </activity>
-        <activity
-            android:name=".VerifyPasscodeActivity"
-            android:label="@string/title_activity_passcode_verify" >
-        </activity>
     </application>
 
 </manifest>

@@ -1,18 +1,28 @@
 <resources>
+    <!-- Application Name -->
     <string name="app_name">ScreenTimeManager</string>
+
+    <!-- Activity Titles -->
+    <string name="title_activity_debug">デバッグ用画面</string>
+    <string name="title_activity_screen_lock">使えません。</string>
+    <string name="title_activity_passcode_verify">パスコードを入力してください。</string>
+    <string name="title_activity_settings">ScreenTimeManager設定</string>
+    <string name="title_activity_app_list">制限するアプリケーション</string>
+
+    <string name="action_OK">OK</string>
+    <string name="action_close">閉じる</string>
+    <string name="action_settings">設定</string>
 
     <string name="usage_time_is_up">使い過ぎだよ！</string>
     <string name="current_usage_time">%1$d分使ったよ。</string>
-    <string name="restricted_time">%1$d分まで使えるよ。</string>
-    <string name="installed_time">インストール日時は%1$tcです。</string>
-    <string name="close">閉じる</string>
+    <string name="restricted_time">今日は%1$d分まで使えるよ。</string>
+    <string name="installed_time">インストール日時は%1$tFです。</string>
+    <string name="enter_passcode">パスコードを入力してください。\n初期設定は0000です。</string>
 
-    <string name="hello_world">あHello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_app_list">AppListActivity</string>
-    <string name="title_activity_screen_lock">ScreenLockActivity</string>
-    <string name="title_activity_debug">DebugActivity</string>
+    <string name="pref_header_general">全般的な設定</string>
+
     <string name="settings_restricted_application_list">制限するアプリケーション</string>
     <string name="settings_restricted_application_list_summary">利用時間を制限するアプリケーションを指定します。</string>
-    <string name="title_activity_passcode_verify">PasscodeVerifyActivity</string>
+
+
 </resources>
