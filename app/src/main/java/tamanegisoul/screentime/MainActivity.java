@@ -42,10 +42,8 @@ public class MainActivity extends AppCompatActivity {
         // アプリケーションの使用状況を取得できない場合はユーザに設定するよう促す
         if (!ApplicationUtils.isUsageStatsAccessible(this)) {
             showSecuritySettingDialog();
-        }
-
-        // パスコードが設定されていない場合はパスコードの設定を促す
-        if (!PreferenceHelper.isPasscodeSet(this)) {
+        } else if (!PreferenceHelper.isPasscodeSet(this)) {
+            // パスコードが設定されていない場合はパスコードの設定を促す
             showSettingDialog();
         }
 
@@ -92,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     private void showSettingDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle(R.string.dialog_security_settings);
-        alertDialogBuilder.setMessage(R.string.turn_on_usage_access);
+        alertDialogBuilder.setMessage(R.string.set_passcode);
         alertDialogBuilder.setPositiveButton(R.string.action_OK,
                 new DialogInterface.OnClickListener() {
                     @Override

@@ -47,9 +47,7 @@ public class AppListAdapter extends ArrayAdapter<ApplicationInfo> implements Vie
         TextView textView = (TextView)convertView.findViewById(R.id.list_item_textView);
         textView.setText(applicationInfo.loadLabel(mPackageManager));
         CheckBox checkBox = (CheckBox)convertView.findViewById(R.id.list_item_checkBox);
-        if (!mDataMap.containsKey(checkBox)) {
-            mDataMap.put(checkBox, applicationInfo);
-        }
+        mDataMap.put(checkBox, applicationInfo);
         boolean isRestricted = PreferenceHelper.isRestrictedApp(getContext(), applicationInfo.packageName);
         checkBox.setChecked(isRestricted);
         checkBox.setOnClickListener(this);
@@ -59,7 +57,7 @@ public class AppListAdapter extends ArrayAdapter<ApplicationInfo> implements Vie
     @Override
     public void onClick(View view) {
         CheckBox checkBox = (CheckBox) view;
-        Logger.d(this, mDataMap.get(checkBox).packageName + " is clicked.");
+        Logger.d(this, mDataMap.get(checkBox).packageName + " is clicked. isChecked() is " + checkBox.isChecked());
         PreferenceHelper.setRestrictedApp(getContext(), mDataMap.get(checkBox).packageName, checkBox.isChecked());
     }
 
