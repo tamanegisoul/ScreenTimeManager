@@ -33,4 +33,9 @@ public class MainService extends Service {
         super.onDestroy();
         timer.purge();
     }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return START_STICKY;
+    }
 }
