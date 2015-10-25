@@ -20,7 +20,7 @@ public class MainService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        for(ApplicationInfo info : getPackageManager().getInstalledApplications(BIND_AUTO_CREATE)) {
+        for (ApplicationInfo info : getPackageManager().getInstalledApplications(BIND_AUTO_CREATE)) {
             Log.d("MainService", info.processName);
         }
         // 非同期（別スレッド）で定期的に処理を実行させるためにTimerを利用する
