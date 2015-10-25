@@ -122,4 +122,16 @@ public class ApplicationUtils {
         return label;
     }
 
+    /**
+     * @param timeInMillisec ミリ秒
+     * @return ミリ秒を時間として時:分:秒.ミリ秒に変換した文字列
+     */
+    public static String getTimeString(long timeInMillisec) {
+        long hours = timeInMillisec / 1000 / 60 / 60;
+        long minutes = (timeInMillisec - hours * 1000 * 60 * 60) / 1000 / 60;
+        long seconds = (timeInMillisec - hours * 1000 * 60 * 60 - minutes * 1000 * 60) / 1000;
+        long milliSeconds = (timeInMillisec - hours * 1000 * 60 * 60 - minutes * 1000 * 60 - seconds * 1000);
+        return String.valueOf(hours) + ":" + String.valueOf(minutes) + ":" + String.valueOf(seconds) + "." + String.valueOf(milliSeconds);
+    }
+
 }

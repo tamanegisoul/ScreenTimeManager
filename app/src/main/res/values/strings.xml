@@ -16,6 +16,7 @@
     <string name="usage_time_is_up">使い過ぎだよ！</string>
     <string name="current_usage_time">%1$d分使ったよ。</string>
     <string name="restricted_time">今日は%1$d分まで使えるよ。</string>
+    <string name="not_restricted">おとなの人に見てもらってね。（時間制限が設定されていません）</string>
     <string name="installed_time">インストール日は%1$tFです。</string>
     <string name="enter_passcode">パスコードを入力してください。\n初期設定は空です。</string>
 
@@ -29,6 +30,7 @@
     <string name="installed_date_is">インストール日時は%1$sです。</string>
     <string name="icon">アイコン</string>
     <string name="set_passcode">パスコードを設定してください。</string>
+    <string name="action_debug">デバッグ</string>
 
 
 </resources>
