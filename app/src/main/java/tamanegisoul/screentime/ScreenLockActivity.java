@@ -55,7 +55,7 @@ public class ScreenLockActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClick_close(View view){
+    public void onClick_close(View view) {
         finish();
     }
 }

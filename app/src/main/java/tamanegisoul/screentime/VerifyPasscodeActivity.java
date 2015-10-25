@@ -15,15 +15,15 @@ public class VerifyPasscodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_passcode_verify);
     }
 
-    public void onClick_OK(View view){
-        EditText editText = (EditText)findViewById(R.id.editText);
-        if(PreferenceHelper.isPasscodeValid(this, editText.getText().toString())){
+    public void onClick_OK(View view) {
+        EditText editText = (EditText) findViewById(R.id.editText);
+        if (PreferenceHelper.isPasscodeValid(this, editText.getText().toString())) {
             PreferenceHelper.setAuthTimestamp(this);
             Intent intent = new Intent(this, SettingsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
-        }else{
+        } else {
             Toast.makeText(this, R.string.passcode_is_invalid, Toast.LENGTH_LONG).show();
         }
     }

@@ -19,7 +19,7 @@ public class SettingsActivity extends PreferenceActivity {
         Logger.d(this, "onRestart()");
         super.onRestart();
         // 再表示の際に認証から時間が立っていれば終了する。
-        if(new Date().getTime() - PreferenceHelper.getAuthSessionTimeout(this) * 60 * 1000 > PreferenceHelper.getAuthTimestamp(this)) {
+        if (new Date().getTime() - PreferenceHelper.getAuthSessionTimeout(this) * 60 * 1000 > PreferenceHelper.getAuthTimestamp(this)) {
             finish();
         }
     }

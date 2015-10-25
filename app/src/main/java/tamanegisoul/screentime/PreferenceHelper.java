@@ -32,7 +32,7 @@ public class PreferenceHelper {
         }
     }
 
-    public static boolean isRestrictedApp(Context context, String packageName){
+    public static boolean isRestrictedApp(Context context, String packageName) {
         String key = context.getString(R.string.key_pref_restricted_app_prefix) + packageName;
         return Boolean.valueOf(PreferenceManager.getDefaultSharedPreferences(context).getString(key, String.valueOf(true)));
     }
@@ -42,7 +42,7 @@ public class PreferenceHelper {
         PreferenceManager.getDefaultSharedPreferences(context).edit().putString(key, String.valueOf(isRestricted)).commit();
     }
 
-    public static boolean isEnabledRestriction(Context context){
+    public static boolean isEnabledRestriction(Context context) {
         String key = context.getString(R.string.key_pref_is_restriction_enabled);
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, false);
     }
@@ -61,11 +61,12 @@ public class PreferenceHelper {
      * @param context context
      * @return restricted time in minutes
      */
-    public static int getRestrictedTime(Context context){
+    public static int getRestrictedTime(Context context) {
         String key = context.getString(R.string.key_pref_restricted_time);
         return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(context).getString(key, "60"));
     }
-    public static int getAuthSessionTimeout(Context context){
+
+    public static int getAuthSessionTimeout(Context context) {
         String key = context.getString(R.string.key_pref_auth_session_timeout);
         return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(context).getString(key, "3"));
     }
@@ -74,7 +75,8 @@ public class PreferenceHelper {
         String key = context.getString(R.string.key_pref_passcode);
         return PreferenceManager.getDefaultSharedPreferences(context).contains(key);
     }
-    public static boolean isPasscodeValid(Context context, String passcode){
+
+    public static boolean isPasscodeValid(Context context, String passcode) {
         String key = context.getString(R.string.key_pref_passcode);
         return passcode.equals(PreferenceManager.getDefaultSharedPreferences(context).getString(key, "0000"));
     }
@@ -83,6 +85,7 @@ public class PreferenceHelper {
         String key = context.getString(R.string.key_auth_timestamp);
         PreferenceManager.getDefaultSharedPreferences(context).edit().putLong(key, new Date().getTime()).commit();
     }
+
     public static long getAuthTimestamp(Context context) {
         String key = context.getString(R.string.key_auth_timestamp);
         return PreferenceManager.getDefaultSharedPreferences(context).getLong(key, 0);
