@@ -26,9 +26,9 @@ public class AppListAdapter extends ArrayAdapter<ApplicationInfo> implements Vie
     // CheckBoxの選択イベントでCheckBoxに対応するアプリケーションを取得するための入れ物
     private Map<CheckBox, ApplicationInfo> mDataMap;
 
-    public AppListAdapter(Context context, int resourceId, List<ApplicationInfo> applicationInfoList){
+    public AppListAdapter(Context context, int resourceId, List<ApplicationInfo> applicationInfoList) {
         super(context, resourceId, applicationInfoList);
-        mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mPackageManager = context.getPackageManager();
         mDataMap = new HashMap<>();
     }
@@ -37,16 +37,16 @@ public class AppListAdapter extends ArrayAdapter<ApplicationInfo> implements Vie
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // convertViewは使いまわされている可能性があるのでnullの時だけ新しく作る
-        if(convertView == null){
+        if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.list_item, null);
         }
 
         ApplicationInfo applicationInfo = getItem(position);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.list_item_imageView);
         imageView.setImageDrawable(mPackageManager.getApplicationIcon(applicationInfo));
-        TextView textView = (TextView)convertView.findViewById(R.id.list_item_textView);
+        TextView textView = (TextView) convertView.findViewById(R.id.list_item_textView);
         textView.setText(applicationInfo.loadLabel(mPackageManager));
-        CheckBox checkBox = (CheckBox)convertView.findViewById(R.id.list_item_checkBox);
+        CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.list_item_checkBox);
         mDataMap.put(checkBox, applicationInfo);
         boolean isRestricted = PreferenceHelper.isRestrictedApp(getContext(), applicationInfo.packageName);
         checkBox.setChecked(isRestricted);
