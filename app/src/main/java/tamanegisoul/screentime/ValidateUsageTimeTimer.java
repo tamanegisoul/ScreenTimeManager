@@ -22,6 +22,15 @@ public class ValidateUsageTimeTimer extends TimerTask {
     @Override
     public void run() {
         mStats.refreshUsageStatsMap(mContext, mCalendar);
+
+        // TODO: refactor
+        long a = mStats.getTotalUsageTime() / 1000 / 60;
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.putExtra("time", a);
+        broadcastIntent.setAction("MY_ACTION");
+        mContext.sendBroadcast(broadcastIntent);
+
+        // TODO: Activity表示はやめる。オーバーレイにする。
         if ((mStats.getLastUsedPackageName().equals("com.android.vending") && PreferenceHelper.isPlayStoreDisabled(mContext))
                 || (mStats.getLastUsedPackageName().equals("com.android.settings") && PreferenceHelper.isSettingAppDisabled(mContext))) {
             Intent i = new Intent(mContext, ScreenLockActivity.class);

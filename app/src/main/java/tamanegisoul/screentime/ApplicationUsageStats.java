@@ -3,6 +3,7 @@ package tamanegisoul.screentime;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
+import android.os.Build;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -68,6 +69,7 @@ public class ApplicationUsageStats {
      * @param mCalendar Calendar
      */
     public void refreshUsageStatsMap(Context mContext, Calendar mCalendar) {
+        // TODO:remove mCalendar from param
         mMap.clear();
         mLastUsedPackageName = "";
         mTotalUsageTime = 0;
@@ -75,8 +77,8 @@ public class ApplicationUsageStats {
         // 今日の使用時間情報を取得
         // 使用時間が０になってしまう場合は、設定ーセキュリティー使用履歴にアクセスできるアプリを確認する。
         UsageStatsManager mUsageStatsManager = (UsageStatsManager) mContext.getSystemService(Context.USAGE_STATS_SERVICE);
-        mCalendar.set(mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DATE), 0, 0, 0);
-        List<UsageStats> usageStatsList = mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, mCalendar.getTimeInMillis(), mCalendar.getTimeInMillis() + 24 * 60 * 60 * 1000);
+        long endTime = System.currentTimeMillis();
+        List<UsageStats> usageStatsList = mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, endTime - 30 * 1000, endTime);
 
         String lastUsedPackageName = "";
         long lastUsedAppStartedTime = 0;
@@ -102,9 +104,16 @@ public class ApplicationUsageStats {
         mLastUsedPackageName = lastUsedPackageName;
 
         // 最後に起動したアプリが制限対象ならカウント
-        if (lastUsedAppStartedTime != 0 && PreferenceHelper.isRestrictedApp(mContext, lastUsedPackageName)) {
-            long lastAppUsedTime = Calendar.getInstance().getTimeInMillis() - lastUsedAppStartedTime;
-            mMap.put(lastUsedPackageName, lastAppUsedTime);
+        // Marshmarrowだと自動でカウントしてくれるようになった模様
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            if (lastUsedAppStartedTime != 0 && PreferenceHelper.isRestrictedApp(mContext, lastUsedPackageName)) {
+                long lastAppUsedTime = Calendar.getInstance().getTimeInMillis() - lastUsedAppStartedTime;
+                if (mMap.containsKey(lastUsedPackageName)) {
+                    mMap.put(lastUsedPackageName, mMap.get(lastUsedPackageName) + lastAppUsedTime);
+                } else {
+                    mMap.put(lastUsedPackageName, lastAppUsedTime);
+                }
+            }
         }
     }
 
