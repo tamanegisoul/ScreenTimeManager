@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class PreferenceHelper {
@@ -62,7 +63,13 @@ public class PreferenceHelper {
      * @return restricted time in minutes
      */
     public static int getRestrictedTime(Context context) {
-        String key = context.getString(R.string.key_pref_restricted_time);
+        String key;
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        if (day == Calendar.SATURDAY || day == Calendar.SUNDAY) {
+            key = context.getString(R.string.key_pref_restricted_time_holiday);
+        } else {
+            key = context.getString(R.string.key_pref_restricted_time);
+        }
         return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(context).getString(key, "60"));
     }
 

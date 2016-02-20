@@ -51,7 +51,18 @@
 
     <EditTextPreference
         android:key="@string/key_pref_restricted_time"
-        android:title="制限時間(分)"
+        android:title="平日の制限時間(分)"
+        android:summary="アプリケーションの利用時間を分単位で設定します。"
+
+        android:defaultValue="60"
+        android:selectAllOnFocus="true"
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    <EditTextPreference
+        android:key="@string/key_pref_restricted_time_holiday"
+        android:title="休日の制限時間(分)"
         android:summary="アプリケーションの利用時間を分単位で設定します。"
 
         android:defaultValue="60"

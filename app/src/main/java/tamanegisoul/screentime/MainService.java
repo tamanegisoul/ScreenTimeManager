@@ -34,7 +34,7 @@ public class MainService extends Service {
         }
         // 非同期（別スレッド）で定期的に処理を実行させるためにTimerを利用する
         timer = new Timer();
-        timer.schedule(new ValidateUsageTimeTimer(this), 0, 5000);
+        timer.schedule(new ValidateUsageTimeTimer(this), 0, 10000);
 
         // TODO: refactor
         // TODO: オーバーレイの権限ない時の対処
@@ -68,7 +68,6 @@ public class MainService extends Service {
                 }
             }
         }, intentFilter);
-
 
     }
 
