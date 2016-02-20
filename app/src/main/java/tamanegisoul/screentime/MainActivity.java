@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     private void refreshView() {
         // 統計情報を取得
         ApplicationUsageStats stats = new ApplicationUsageStats();
-        stats.refreshUsageStatsMap(this, Calendar.getInstance());
+        stats.refreshUsageStatsMap(this);
 
         // 各アプリの利用時間
         TextView textView = (TextView) findViewById(R.id.textView);

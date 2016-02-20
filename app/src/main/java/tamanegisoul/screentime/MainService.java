@@ -22,7 +22,6 @@ public class MainService extends Service {
     private Timer timer;
 
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -33,8 +32,9 @@ public class MainService extends Service {
             Log.d("MainService", info.processName);
         }
         // 非同期（別スレッド）で定期的に処理を実行させるためにTimerを利用する
+        // TODO: make the interval time configurable
         timer = new Timer();
-        timer.schedule(new ValidateUsageTimeTimer(this), 0, 10000);
+        timer.schedule(new ValidateUsageTimeTimer(this), 0, 5000);
 
         // TODO: refactor
         // TODO: オーバーレイの権限ない時の対処
@@ -54,17 +54,19 @@ public class MainService extends Service {
         final TextView v2 = (TextView) view.findViewById(R.id.textView2);
 
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("MY_ACTION");
+        intentFilter.addAction(UpdateOverlayIntent.ACTION_UPDATE_OVERLAY);
         registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                long time = intent.getLongExtra("time", 0);
-                v.setText(String.valueOf(time));
-                if (time > PreferenceHelper.getRestrictedTime(context)) {
-                    // TODO:制限有効かつ制限対象が使われている時だけ表示する。
-                    v2.setVisibility(View.VISIBLE);
-                } else {
-                    v2.setVisibility(View.INVISIBLE);
+                if (intent.getAction().equals(UpdateOverlayIntent.ACTION_UPDATE_OVERLAY)) {
+                    // TODO: intentは自前クラスでbroadcastしてもただのIntentでreceiveするので自前クラスはやめる
+                    UpdateOverlayIntent uIntent = new UpdateOverlayIntent(intent);
+                    v.setText(String.valueOf(uIntent.getUsageTime()));
+                    if (uIntent.isRestrictedAppInUse() && uIntent.getUsageTime() > PreferenceHelper.getRestrictedTime(context)) {
+                        v2.setVisibility(View.VISIBLE);
+                    } else {
+                        v2.setVisibility(View.INVISIBLE);
+                    }
                 }
             }
         }, intentFilter);

@@ -64,11 +64,9 @@ public class ApplicationUsageStats {
     /**
      * 最新の統計情報を取得する。
      *
-     * @param mContext  Context
-     * @param mCalendar Calendar
+     * @param mContext Context
      */
-    public void refreshUsageStatsMap(Context mContext, Calendar mCalendar) {
-        // TODO:remove mCalendar from param
+    public void refreshUsageStatsMap(Context mContext) {
         mMap.clear();
         mLastUsedPackageName = "";
         mTotalUsageTime = 0;

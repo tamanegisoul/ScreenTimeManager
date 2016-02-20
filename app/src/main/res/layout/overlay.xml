@@ -10,8 +10,9 @@
         android:layout_centerInParent="true"
         android:visibility="invisible"
         android:text="時間切れだよ"
-        android:textSize="64sp"
-        android:textColor="@android:color/holo_red_dark" />
+        android:textSize="96sp"
+        android:textColor="@android:color/holo_red_dark"
+        android:background="@android:color/white" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -23,7 +24,7 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello! TechBooster!!!"
+            android:text="（読み込み中）"
             android:textSize="16sp"
             android:textColor="@android:color/holo_red_dark" />
 
