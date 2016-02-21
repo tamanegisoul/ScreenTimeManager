@@ -34,11 +34,11 @@ public class MainService extends Service {
         // 非同期（別スレッド）で定期的に処理を実行させるためにTimerを利用する
         // TODO: make the interval time configurable
         timer = new Timer();
-        timer.schedule(new ValidateUsageTimeTimer(this), 0, 5000);
+        timer.schedule(new ValidateUsageTimeTimer(getApplicationContext()), 0, 5000);
 
         // TODO: refactor
         // TODO: オーバーレイの権限ない時の対処
-        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT,
@@ -50,22 +50,21 @@ public class MainService extends Service {
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         View view = layoutInflater.inflate(R.layout.overlay, null);
         wm.addView(view, params);
-        final TextView v = (TextView) view.findViewById(R.id.textView1);
-        final TextView v2 = (TextView) view.findViewById(R.id.textView2);
+        final TextView usageTimeText = (TextView) view.findViewById(R.id.textView1);
+        final TextView overuseText = (TextView) view.findViewById(R.id.textView2);
 
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(UpdateOverlayIntent.ACTION_UPDATE_OVERLAY);
+        intentFilter.addAction(UpdateOverlayIntentHelper.ACTION_UPDATE_OVERLAY);
         registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(UpdateOverlayIntent.ACTION_UPDATE_OVERLAY)) {
+                if (intent.getAction().equals(UpdateOverlayIntentHelper.ACTION_UPDATE_OVERLAY)) {
                     // TODO: intentは自前クラスでbroadcastしてもただのIntentでreceiveするので自前クラスはやめる
-                    UpdateOverlayIntent uIntent = new UpdateOverlayIntent(intent);
-                    v.setText(String.valueOf(uIntent.getUsageTime()));
-                    if (uIntent.isRestrictedAppInUse() && uIntent.getUsageTime() > PreferenceHelper.getRestrictedTime(context)) {
-                        v2.setVisibility(View.VISIBLE);
+                    usageTimeText.setText(String.valueOf(UpdateOverlayIntentHelper.getUsageTime(intent)));
+                    if (UpdateOverlayIntentHelper.isRestrictedAppInUse(intent) && UpdateOverlayIntentHelper.getUsageTime(intent) > PreferenceHelper.getRestrictedTime(context)) {
+                        overuseText.setVisibility(View.VISIBLE);
                     } else {
-                        v2.setVisibility(View.INVISIBLE);
+                        overuseText.setVisibility(View.INVISIBLE);
                     }
                 }
             }

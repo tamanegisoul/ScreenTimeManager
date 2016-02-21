@@ -21,13 +21,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // 初期設定未済の場合は初期設定する
-        if (!PreferenceHelper.isInitialized(this)) {
-            PreferenceHelper.initializePreferences(this);
+        if (!PreferenceHelper.isInitialized(getApplicationContext())) {
+            PreferenceHelper.initializePreferences(getApplicationContext());
         }
 
         // MainServiceが起動していなかったら起動する
-        if (!ApplicationUtils.isMainServiceStarted(this)) {
-            startService(new Intent(this, MainService.class));
+        if (!ApplicationUtils.isMainServiceStarted(getApplicationContext())) {
+            startService(new Intent(getApplicationContext(), MainService.class));
         }
     }
 
@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         // アプリケーションの使用状況を取得できない場合はユーザに設定するよう促す
-        if (!ApplicationUtils.isUsageStatsAccessible(this)) {
+        if (!ApplicationUtils.isUsageStatsAccessible(getApplicationContext())) {
             showSecuritySettingDialog();
-        } else if (!PreferenceHelper.isPasscodeSet(this)) {
+        } else if (!PreferenceHelper.isPasscodeSet(getApplicationContext())) {
             // パスコードが設定されていない場合はパスコードの設定を促す
             showSettingDialog();
         }
@@ -55,10 +55,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
-            startActivity(new Intent(this, VerifyPasscodeActivity.class));
+            startActivity(new Intent(getApplicationContext(), VerifyPasscodeActivity.class));
             return true;
         } else if (item.getItemId() == R.id.action_debug) {
-            startActivity(new Intent(this, DebugActivity.class));
+            startActivity(new Intent(getApplicationContext(), DebugActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
      * セキュリティ設定（アプリケーション使用状況のアクセス許可）をするよう通知し設定画面を表示する。
      */
     private void showSecuritySettingDialog() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
         alertDialogBuilder.setTitle(R.string.dialog_security_settings);
         alertDialogBuilder.setMessage(R.string.turn_on_usage_access);
         alertDialogBuilder.setPositiveButton(R.string.action_OK,
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
      * パスコードを設定するよう通知し設定画面を表示する
      */
     private void showSettingDialog() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
         alertDialogBuilder.setTitle(R.string.dialog_security_settings);
         alertDialogBuilder.setMessage(R.string.set_passcode);
         alertDialogBuilder.setPositiveButton(R.string.action_OK,
@@ -108,11 +108,11 @@ public class MainActivity extends AppCompatActivity {
     private void refreshView() {
         // 統計情報を取得
         ApplicationUsageStats stats = new ApplicationUsageStats();
-        stats.refreshUsageStatsMap(this);
+        stats.refreshUsageStatsMap(getApplicationContext());
 
         // 各アプリの利用時間
         TextView textView = (TextView) findViewById(R.id.textView);
-        textView.setText(stats.getDisplayString(this));
+        textView.setText(stats.getDisplayString(getApplicationContext()));
 
         // 合計利用時間
         textView = (TextView) findViewById(R.id.textView_current_usage_time);
