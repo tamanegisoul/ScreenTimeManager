@@ -38,7 +38,5 @@ public class ValidateUsageTimeTimer extends TimerTask {
                 || (mStats.getLastUsedPackageName().equals("com.android.settings") && PreferenceHelper.isSettingAppDisabled(mContext))) {
             mContext.startActivity(mDisplayLockIntent);
         }
-
-        System.gc();
     }
 }
