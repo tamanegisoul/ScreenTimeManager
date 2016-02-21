@@ -81,8 +81,9 @@ public class ApplicationUsageStats {
         long lastUsedAppStartedTime = 0;
 
         // UsageStatsListが何故か二重に出る。たぶん後の方が正しいのでいったんMapに入れて後の方を使う
+        String packageName;
         for (UsageStats usageStats : usageStatsList) {
-            String packageName = usageStats.getPackageName();
+            packageName = usageStats.getPackageName();
             long usedTime = usageStats.getTotalTimeInForeground();
             // 制限対象のアプリならカウント
             if (PreferenceHelper.isRestrictedApp(mContext, packageName)) {
@@ -109,6 +110,11 @@ public class ApplicationUsageStats {
                 mMap.put(lastUsedPackageName, lastAppUsedTime);
             }
         }
+
+        mUsageStatsManager = null;
+        usageStatsList = null;
+        lastUsedPackageName = null;
+        packageName = null;
     }
 
 }

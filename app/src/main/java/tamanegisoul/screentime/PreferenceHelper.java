@@ -35,12 +35,12 @@ public class PreferenceHelper {
 
     public static boolean isRestrictedApp(Context context, String packageName) {
         String key = context.getString(R.string.key_pref_restricted_app_prefix) + packageName;
-        return Boolean.valueOf(PreferenceManager.getDefaultSharedPreferences(context).getString(key, String.valueOf(true)));
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, true);
     }
 
     public static void setRestrictedApp(Context context, String packageName, boolean isRestricted) {
         String key = context.getString(R.string.key_pref_restricted_app_prefix) + packageName;
-        PreferenceManager.getDefaultSharedPreferences(context).edit().putString(key, String.valueOf(isRestricted)).commit();
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(key, isRestricted).commit();
     }
 
     public static boolean isEnabledRestriction(Context context) {

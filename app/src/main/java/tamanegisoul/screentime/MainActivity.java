@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
      * セキュリティ設定（アプリケーション使用状況のアクセス許可）をするよう通知し設定画面を表示する。
      */
     private void showSecuritySettingDialog() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle(R.string.dialog_security_settings);
         alertDialogBuilder.setMessage(R.string.turn_on_usage_access);
         alertDialogBuilder.setPositiveButton(R.string.action_OK,
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
      * パスコードを設定するよう通知し設定画面を表示する
      */
     private void showSettingDialog() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle(R.string.dialog_security_settings);
         alertDialogBuilder.setMessage(R.string.set_passcode);
         alertDialogBuilder.setPositiveButton(R.string.action_OK,
