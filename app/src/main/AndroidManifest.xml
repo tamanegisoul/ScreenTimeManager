@@ -46,6 +46,10 @@
             android:label="@string/title_activity_app_list" />
 
         <activity
+            android:name=".HolidayListActivity"
+            android:label="@string/title_activity_holiday_list" />
+
+        <activity
             android:name=".DebugActivity"
             android:label="@string/title_activity_debug"
             android:launchMode="singleTask" >

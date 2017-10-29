@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.util.Log;
@@ -28,13 +29,14 @@ public class MainService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        for (ApplicationInfo info : getPackageManager().getInstalledApplications(BIND_AUTO_CREATE)) {
+        //for (ApplicationInfo info : getPackageManager().getInstalledApplications(BIND_AUTO_CREATE)) {
+        for (ApplicationInfo info : getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA)) {
             Log.d("MainService", info.processName);
         }
         // 非同期（別スレッド）で定期的に処理を実行させるためにTimerを利用する
         // TODO: make the interval time configurable
         timer = new Timer();
-        timer.schedule(new ValidateUsageTimeTimer(getApplicationContext()), 0, 5000);
+        timer.schedule(new ValidateUsageTimeTimer(getApplicationContext()), 0, 30000);
 
         // TODO: refactor
         // TODO: オーバーレイの権限ない時の対処

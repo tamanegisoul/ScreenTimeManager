@@ -1,12 +1,11 @@
 package tamanegisoul.screentime;
 
-import android.app.usage.UsageStats;
+import android.app.usage.UsageEvents;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,10 +62,58 @@ public class ApplicationUsageStats {
 
     /**
      * 最新の統計情報を取得する。
-     *
-     * @param mContext Context
+     * UsageStatsManager#queryUsageStats()では正しい値が取得できない（タイムゾーンのせい？）ので
+     * UsageStatsManager#queryEvents()で取得したイベントから自分で計算する。
+     * @param mContext context
      */
     public void refreshUsageStatsMap(Context mContext) {
+        mMap.clear();
+        mLastUsedPackageName = "";
+        mTotalUsageTime = 0;
+
+        // 今日の使用時間情報を取得
+        // 使用時間が０になってしまう場合は、設定ーセキュリティー使用履歴にアクセスできるアプリを確認する。
+        UsageStatsManager manager = (UsageStatsManager) mContext.getSystemService(Context.USAGE_STATS_SERVICE);
+
+        // 取得するイベントの開始と終了日時。
+        Calendar mCalendar = Calendar.getInstance();
+        mCalendar.set(Calendar.HOUR, 0);
+        long from = mCalendar.getTimeInMillis();
+        mCalendar.add(Calendar.DATE, 1);
+        long to = mCalendar.getTimeInMillis();
+
+        UsageEvents events = manager.queryEvents(from, to);
+        String currentPackage = null;
+        long currentTime = 0;
+        while(events.hasNextEvent()){
+            UsageEvents.Event event = new UsageEvents.Event();
+            events.getNextEvent(event);
+            Logger.d(this, event.getPackageName());
+            if(event.getEventType() == UsageEvents.Event.MOVE_TO_FOREGROUND) {
+                currentPackage = event.getPackageName();
+                currentTime = event.getTimeStamp();
+            } else if (event.getEventType() == UsageEvents.Event.MOVE_TO_BACKGROUND) {
+                if(!event.getPackageName().equals(currentPackage)){
+                    throw new RuntimeException();
+                }else{
+                    long time = 0;
+                    if(mMap.containsKey(currentPackage)){
+                        time = mMap.get(currentPackage);
+                    }
+                    if (PreferenceHelper.isRestrictedApp(mContext, currentPackage)) {
+                        //Logger.d(this, packageName + " is restricted.");
+                        mMap.put(currentPackage, time + event.getTimeStamp() - currentTime);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 最新の統計情報を取得する。
+     *
+     * @param mContext Context
+    public void refreshUsageStatsMap_old(Context mContext) {
         mMap.clear();
         mLastUsedPackageName = "";
         mTotalUsageTime = 0;
@@ -116,5 +163,6 @@ public class ApplicationUsageStats {
         lastUsedPackageName = null;
         packageName = null;
     }
+     */
 
 }

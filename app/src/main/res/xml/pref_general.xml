@@ -71,4 +71,15 @@
         android:singleLine="true"
         android:maxLines="1" />
 
+    <PreferenceScreen
+        android:key="@string/key_pref_holidays"
+        android:title="@string/settings_holidays"
+        android:summary="@string/settings_holidays_summary"
+        >
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetPackage="tamanegisoul.screentime"
+            android:targetClass="tamanegisoul.screentime.HolidayListActivity"/>
+    </PreferenceScreen>
+
 </PreferenceScreen>

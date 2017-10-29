@@ -11,5 +11,6 @@
     <string name="key_pref_auth_session_timeout">KEY_AUTH_SESSION_TIMEOUT</string>
     <string name="key_pref_is_disable_app_settings">KEY_DISABLE_APP_SETTINGS</string>
     <string name="key_pref_is_disable_app_store">KEY_DISABLE_APP_STORE</string>
+    <string name="key_pref_holidays">KEY_HOLIDAYS</string>
 
 </resources>

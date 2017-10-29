@@ -1,6 +1,7 @@
 package tamanegisoul.screentime;
 
 import android.app.ActivityManager;
+import android.app.usage.UsageEvents;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
@@ -12,7 +13,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * ユーティリティクラス
@@ -132,6 +137,55 @@ public class ApplicationUtils {
         long seconds = (timeInMillisec - hours * 1000 * 60 * 60 - minutes * 1000 * 60) / 1000;
         long milliSeconds = (timeInMillisec - hours * 1000 * 60 * 60 - minutes * 1000 * 60 - seconds * 1000);
         return String.valueOf(hours) + ":" + String.valueOf(minutes) + ":" + String.valueOf(seconds) + "." + String.valueOf(milliSeconds);
+    }
+
+    /**
+     * DebugActivityから呼び出している。
+     * @param manager manager
+     * @return パッケージ名と使用時間のマップ
+     */
+    public static Map<String, String> getUsageStats(UsageStatsManager manager) {
+        Calendar mCalendar = Calendar.getInstance(Locale.JAPAN);
+        mCalendar.set(Calendar.HOUR, 0);
+        long from = mCalendar.getTimeInMillis();
+        mCalendar.add(Calendar.DATE, 1);
+        long to = mCalendar.getTimeInMillis();
+
+        UsageEvents events = manager.queryEvents(from, to);
+        String currentPackage = null;
+        long currentTime = 0;
+        Map<String, Long> summary = new HashMap<>();
+        while(events.hasNextEvent()){
+            UsageEvents.Event event = new UsageEvents.Event();
+            events.getNextEvent(event);
+            if(event.getEventType() == UsageEvents.Event.MOVE_TO_FOREGROUND) {
+                currentPackage = event.getPackageName();
+                currentTime = event.getTimeStamp();
+            } else if (event.getEventType() == UsageEvents.Event.MOVE_TO_BACKGROUND) {
+                if(!event.getPackageName().equals(currentPackage)){
+                    throw new RuntimeException();
+                }else{
+                    long time = 0;
+                    if(summary.containsKey(currentPackage)){
+                        time = summary.get(currentPackage);
+                    }
+                    summary.put(currentPackage, time + event.getTimeStamp() - currentTime);
+                }
+            }
+        }
+
+        Map<String, String> result = new HashMap<>();
+        for(Map.Entry<String, Long> entry : summary.entrySet()){
+            String timeString = ApplicationUtils.getTimeString(entry.getValue());
+            result.put(entry.getKey(), timeString);
+        }
+
+        return result;
+    }
+
+    public static List<String> getHolidayList(Context context){
+        Set<String> s = PreferenceHelper.getHolidayList(context);
+        return new ArrayList<>(s);
     }
 
 }

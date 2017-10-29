@@ -7,6 +7,8 @@ import android.util.Log;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PreferenceHelper {
 
@@ -96,5 +98,20 @@ public class PreferenceHelper {
     public static long getAuthTimestamp(Context context) {
         String key = context.getString(R.string.key_auth_timestamp);
         return PreferenceManager.getDefaultSharedPreferences(context).getLong(key, 0);
+    }
+
+    public static Set<String> getHolidayList(Context context) {
+        String key = context.getString(R.string.key_pref_holidays);
+        Set<String> s = PreferenceManager.getDefaultSharedPreferences(context).getStringSet(key, null);
+        if(s == null){
+            s = new HashSet<>();
+            s.add("hogehoge");
+        }
+        return s;
+    }
+
+    public static void setHolidayList(Context context, Set<String> value){
+        String key = context.getString(R.string.key_pref_holidays);
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putStringSet(key, value).commit();
     }
 }
